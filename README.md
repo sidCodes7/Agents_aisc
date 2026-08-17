@@ -1,742 +1,204 @@
-# 🏠 Smart Hostel / Airbnb Roommate Management System
+# 🏠 Smart Hostel / Airbnb Unified Management Agent
 
-> **An AI Agent-Based Case Study for Intelligent Room Monitoring, Roommate Matching, and Room Selection**
+> **An AI Agent Case Study featuring a Single Intelligent Agent with Three Core Decision-Making Architectures: Simple Reflex, Goal-Based, and Utility-Based.**
 
 ---
 
 ## 📌 1. Case Study Overview
 
-The **Smart Hostel / Airbnb Roommate Management System** is an agent-based AI case study designed to improve the experience of students and guests living in shared accommodation.
+The **Smart Hostel / Airbnb Management System** is an AI agent-based case study designed to automate and optimize living conditions, roommate pairing, and accommodation selection in shared hostel/Airbnb environments.
 
-The system consists of **three intelligent agents**, where each agent uses a different type of AI agent architecture:
+Instead of deploying disconnected scripts, this case study integrates **one comprehensive Intelligent Agent (`SmartHostelAgent`)** equipped with **three distinct decision-making functionalities**:
 
-1. **Room Behavior Monitoring Agent** — Simple Reflex Agent
-2. **Roommate Compatibility Agent** — Goal-Based Agent
-3. **Room Selection Agent** — Utility-Based Agent
+1. **Room Behavior Monitoring Functionality** — *Simple Reflex Agent Architecture*
+2. **Roommate Compatibility Functionality** — *Goal-Based Agent Architecture*
+3. **Room Selection Functionality** — *Utility-Based Agent Architecture*
 
-Each agent receives specific information from its environment, processes it according to its architecture, and produces an appropriate action or recommendation.
-
-The project is intentionally designed as a **case study rather than a complete application**. Each team member implements one independent agent.
+Each functionality represents a foundational intelligent agent architecture, allowing direct comparison of how different decision paradigms (condition-action rules, goal satisfaction, and multi-attribute utility optimization) operate inside a unified system.
 
 ---
 
-# 🎯 2. Objectives
+## 🎯 2. Objectives
 
-The main objectives of the case study are:
-
-* Monitor room conditions and detect basic violations.
-* Identify compatible roommates based on lifestyle preferences.
-* Select the most suitable room from available options.
-* Demonstrate different types of intelligent agents.
-* Understand the relationship between **sensors, percepts, decision-making, and actuators**.
-* Compare Simple Reflex, Goal-Based, and Utility-Based agent architectures.
+* Implement a **single unified agent** possessing three distinct decision mechanisms.
+* **Simple Reflex:** Monitor room environmental percepts and trigger instant corrective reflex actions.
+* **Goal-Based:** Search and filter candidate roommates against an explicit compatibility goal threshold.
+* **Utility-Based:** Balance trade-offs among price, distance, facilities, noise, and compatibility using a multi-criteria utility function to choose the optimal room.
+* Demonstrate the relationship between **Sensors, Percepts, Decision Rules, Goals, Utilities, and Actuators** within the **PEAS framework**.
+* Support collaborative development through a phased implementation flow ([flow.md](file:///d:/Het/College/sem5/AISC/agentexp/flow.md)).
 
 ---
 
-# 🧠 3. Overall Agent-Based Architecture
+## 🧠 3. Unified Agent Architecture
 
 ```text
-                         SMART HOSTEL / AIRBNB
-                              ENVIRONMENT
-                                  │
-              ┌───────────────────┼───────────────────┐
-              │                   │                   │
-              ▼                   ▼                   ▼
-       Room Conditions      User Preferences     Available Rooms
-              │                   │                   │
-              ▼                   ▼                   ▼
-     ┌────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-     │  AGENT 1       │  │     AGENT 2      │  │     AGENT 3      │
-     │ Room Behavior  │  │    Roommate      │  │  Room Selection  │
-     │    Monitor     │  │   Compatibility  │  │      Agent       │
-     └───────┬────────┘  └────────┬─────────┘  └────────┬─────────┘
-             │                    │                     │
-             ▼                    ▼                     ▼
-      Simple Reflex          Goal-Based            Utility-Based
-             │                    │                     │
-             ▼                    ▼                     ▼
-       Immediate Action      Goal Satisfaction     Best Utility
-             │                    │                     │
-             ▼                    ▼                     ▼
-         Alerts /             Compatible             Best Room
-         Actions              Roommate             Recommendation
-```
-
----
-
-# 👥 4. Agents in the System
-
-| Agent       | Agent Type    | Primary Responsibility     |
-| ----------- | ------------- | -------------------------- |
-| **Agent 1** | Simple Reflex | Monitor room conditions    |
-| **Agent 2** | Goal-Based    | Find a compatible roommate |
-| **Agent 3** | Utility-Based | Select the best room       |
-
----
-
-# 🤖 5. Agent 1 — Room Behavior Monitoring Agent
-
-### Agent Type
-
-**Simple Reflex Agent**
-
-### Purpose
-
-The Room Behavior Monitoring Agent observes the current state of a room and immediately responds to predefined conditions.
-
-It does not maintain a history of previous states or perform long-term planning.
-
-### Architecture
-
-```text
-         ROOM ENVIRONMENT
-                │
-                ▼
-       ┌─────────────────┐
-       │     Sensors     │
-       │                 │
-       │ • Noise Level   │
-       │ • Light Status  │
-       │ • Door Status   │
-       └────────┬────────┘
-                │
-                ▼
-       ┌─────────────────┐
-       │   Rule Engine   │
-       │                 │
-       │ IF condition    │
-       │ THEN action     │
-       └────────┬────────┘
-                │
-                ▼
-       ┌─────────────────┐
-       │    Actuators    │
-       │                 │
-       │ • Warning       │
-       │ • Lock Door     │
-       │ • Turn Lights   │
-       └─────────────────┘
-```
-
-### Inputs / Percepts
-
-* Noise level
-* Light status
-* Door status
-* Occupancy status
-
-### Example Rules
-
-| Percept                 | Rule                          | Action                |
-| ----------------------- | ----------------------------- | --------------------- |
-| Noise > 60 dB           | High noise detected           | Generate warning      |
-| Door = Unlocked         | Security issue                | Lock door / alert     |
-| Light = ON + Room Empty | Unnecessary electricity usage | Turn off light        |
-| All normal              | No violation                  | Maintain normal state |
-
-### Example
-
-```text
-Input:
-Noise = 72 dB
-Door = Unlocked
-Light = ON
-Room Occupied = False
-
-Output:
-⚠ High Noise Detected
-⚠ Door is Unlocked
-💡 Room is Empty → Turn Off Lights
-```
-
-### Agent Characteristics
-
-* No memory
-* Rule-based
-* Immediate response
-* No planning
-* Suitable for simple environmental monitoring
-
----
-
-# 🤝 6. Agent 2 — Roommate Compatibility Agent
-
-### Agent Type
-
-**Goal-Based Agent**
-
-### Purpose
-
-The Roommate Compatibility Agent searches for a roommate who satisfies the user's desired lifestyle requirements.
-
-Unlike the Simple Reflex Agent, this agent works toward a **specific goal**.
-
-### Goal
-
-> **Find a roommate whose compatibility score satisfies the required threshold.**
-
-For example:
-
-```text
-Goal:
-Compatibility >= 70%
-```
-
-### Architecture
-
-```text
-          USER
-           │
-           ▼
-   ┌─────────────────┐
-   │ User Preferences│
-   │                 │
-   │ • Sleep Pattern │
-   │ • Cleanliness   │
-   │ • Noise         │
-   │ • Smoking       │
-   │ • Study Habits  │
-   └────────┬────────┘
-            │
-            ▼
-   ┌─────────────────┐
-   │ Candidate        │
-   │ Roommates        │
-   └────────┬────────┘
-            │
-            ▼
-   ┌─────────────────┐
-   │ Compatibility   │
-   │ Evaluation      │
-   └────────┬────────┘
-            │
-            ▼
-   ┌─────────────────┐
-   │   Goal Check    │
-   │                 │
-   │ Score >= Goal?  │
-   └───────┬─────────┘
-           │
-      ┌────┴─────┐
-      ▼          ▼
-     YES         NO
-      │           │
-      ▼           ▼
- Recommend     Reject /
- Roommate      Check Next
-```
-
-### Inputs
-
-#### User Preferences
-
-* Sleep schedule
-* Cleanliness preference
-* Noise tolerance
-* Smoking preference
-* Study/work preference
-
-#### Candidate Information
-
-The same attributes are collected for potential roommates.
-
-### Example
-
-**User:**
-
-```text
-Sleep: Early
-Cleanliness: High
-Noise: Low
-Smoking: No
-Study: Yes
-```
-
-**Candidates:**
-
-| Candidate | Compatibility |
-| --------- | ------------: |
-| Rahul     |           85% |
-| Amit      |           62% |
-| Jay       |           78% |
-
-With the goal:
-
-```text
-Compatibility >= 70%
-```
-
-The agent can recommend:
-
-```text
-Recommended Roommate: Rahul
-Compatibility: 85%
-Goal Achieved: YES
-```
-
-### Agent Characteristics
-
-* Has a defined goal
-* Evaluates possible candidates
-* Takes decisions based on goal satisfaction
-* Can reject candidates that do not satisfy the goal
-* More flexible than a Simple Reflex Agent
-
----
-
-# 🏡 7. Agent 3 — Room Selection Agent
-
-### Agent Type
-
-**Utility-Based Agent**
-
-### Purpose
-
-The Room Selection Agent chooses the best available room by comparing multiple factors.
-
-Instead of using a single condition, it considers several competing factors and calculates an overall **utility score**.
-
-### Architecture
-
-```text
-             AVAILABLE ROOMS
-                    │
-                    ▼
-          ┌──────────────────┐
-          │ Room Information │
-          │                  │
-          │ • Rent           │
-          │ • Distance       │
-          │ • Facilities     │
-          │ • Noise          │
-          │ • Compatibility  │
-          └────────┬─────────┘
-                   │
-                   ▼
-          ┌──────────────────┐
-          │ Utility Function │
-          │                  │
-          │ Calculate score  │
-          │ for each room    │
-          └────────┬─────────┘
-                   │
-                   ▼
-          ┌──────────────────┐
-          │ Compare Scores   │
-          └────────┬─────────┘
-                   │
-                   ▼
-          ┌──────────────────┐
-          │ Highest Utility  │
-          │      Room        │
-          └────────┬─────────┘
-                   │
-                   ▼
-             Recommendation
-```
-
-### Inputs
-
-* Monthly rent
-* Distance from college/work
-* Facilities
-* Noise level
-* Roommate compatibility
-
-### Example Utility Function
-
-Each factor is normalized to a value between `0` and `100`.
-
-```text
-Utility =
-    0.25 × Affordability
-  + 0.15 × Distance
-  + 0.20 × Facilities
-  + 0.15 × Low Noise
-  + 0.25 × Compatibility
-```
-
-### Example
-
-| Room     |   Rent | Distance | Facilities | Noise | Compatibility | Utility |
-| -------- | -----: | -------: | ---------: | ----: | ------------: | ------: |
-| Room 101 | ₹8,000 |     2 km |       8/10 |   Low |           90% |      82 |
-| Room 102 | ₹6,500 |     5 km |       7/10 |  High |           70% |      71 |
-| Room 103 | ₹9,000 |     1 km |      10/10 |   Low |           80% |  **88** |
-
-### Decision
-
-```text
-Room 101 → Utility = 82
-Room 102 → Utility = 71
-Room 103 → Utility = 88
-
-Best Room → Room 103
-```
-
-### Agent Characteristics
-
-* Evaluates multiple alternatives
-* Uses preferences/weights
-* Calculates utility
-* Selects the highest-value option
-* Suitable when several factors influence the decision
-
----
-
-# 🔄 8. Comparison of the Three Agents
-
-| Feature        | Agent 1          | Agent 2                 | Agent 3             |
-| -------------- | ---------------- | ----------------------- | ------------------- |
-| Name           | Behavior Monitor | Roommate Matcher        | Room Selector       |
-| Type           | Simple Reflex    | Goal-Based              | Utility-Based       |
-| Memory         | ❌                | Optional                | Optional            |
-| Planning       | ❌                | ✅                       | ✅                   |
-| Decision Basis | Rules            | Goal                    | Utility             |
-| Main Input     | Room state       | Lifestyle preferences   | Room attributes     |
-| Output         | Action/Alert     | Roommate recommendation | Room recommendation |
-| Complexity     | Low              | Medium                  | Medium              |
-
----
-
-# 👨‍💻 9. Division of Work
-
-The case study is divided equally among three team members.
-
-### Member 1 — Simple Reflex Agent
-
-**Agent:** Room Behavior Monitoring Agent
-
-**Responsible for:**
-
-* Taking room-condition inputs
-* Implementing condition-action rules
-* Detecting violations
-* Generating appropriate actions/alerts
-* Demonstrating Simple Reflex architecture
-
-**Expected implementation:**
-
-```text
-Input → Rules → Action
+                           HOSTEL / AIRBNB ENVIRONMENT
+                                        │
+             ┌──────────────────────────┼──────────────────────────┐
+             │                          │                          │
+             ▼                          ▼                          ▼
+      Room Sensors /             User Lifestyle &           Available Rooms
+      Live Percepts             Goal Threshold              & Amenities
+             │                          │                          │
+             └──────────────────────────┼──────────────────────────┘
+                                        │
+                                        ▼
+    ┌────────────────────────────────────────────────────────────────────────┐
+    │                 UNIFIED AGENT: SmartHostelAgent                        │
+    ├────────────────────────┬───────────────────────┬───────────────────────┤
+    │    FUNCTIONALITY 1     │    FUNCTIONALITY 2    │    FUNCTIONALITY 3    │
+    │  Room Behavior Monitor │  Roommate Matcher     │  Room Selection       │
+    ├────────────────────────┼───────────────────────┼───────────────────────┤
+    │     Simple Reflex      │      Goal-Based       │     Utility-Based     │
+    │                        │                       │                       │
+    │  • Condition-Action    │  • Goal: Score >= 70% │  • Multi-attribute    │
+    │  • No history/planning │  • Evaluates candidates│   utility function   │
+    │  • Instant response    │  • Goal check (Y/N)   │  • Trade-off ranking  │
+    └───────────┬────────────┴───────────┬───────────┴───────────┬───────────┘
+                │                        │                       │
+                ▼                        ▼                       ▼
+          Alerts / Actions          Matched Roommate        Optimal Room
+          (Lock, Lights, Noise)     (Goal Satisfied)        (Highest Utility)
 ```
 
 ---
 
-### Member 2 — Goal-Based Agent
+## 🤖 4. Three Core Agent Functionalities
 
-**Agent:** Roommate Compatibility Agent
-
-**Responsible for:**
-
-* Taking user preferences
-* Maintaining candidate roommate profiles
-* Calculating compatibility
-* Defining compatibility goal
-* Selecting a candidate who satisfies the goal
-* Demonstrating Goal-Based architecture
-
-**Expected implementation:**
-
-```text
-Preferences → Candidate Evaluation → Goal Check → Recommendation
-```
+| Functionality | Architecture Type | Decision Basis | Input Percepts | Primary Output / Actuation |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Behavior Monitor** | **Simple Reflex** | Condition-Action Rules | Noise level, door lock, light status, occupancy | Immediate alerts, auto-lock, lights control |
+| **2. Roommate Matching** | **Goal-Based** | Goal Satisfaction ($\ge$ Threshold) | User preferences vs. candidate roommate profiles | Goal status & compatible roommate recommendation |
+| **3. Room Selection** | **Utility-Based** | Multi-Attribute Utility Function | Rent, distance, facilities, noise, compatibility | Highest-utility room recommendation ($U_{\max}$) |
 
 ---
 
-### Member 3 — Utility-Based Agent
+## ⚡ 5. Detailed Breakdown of Functionalities
 
-**Agent:** Room Selection Agent
-
-**Responsible for:**
-
-* Taking available room information
-* Normalizing room attributes
-* Assigning weights
-* Calculating utility scores
-* Comparing rooms
-* Recommending the highest-utility room
-* Demonstrating Utility-Based architecture
-
-**Expected implementation:**
-
-```text
-Room Data → Utility Calculation → Score Comparison → Best Room
-```
+### 5.1 Functionality 1 — Room Behavior Monitor (Simple Reflex)
+* **Design Philosophy:** Operates strictly on immediate percepts without state history or future planning.
+* **Mechanism:** Table-lookup condition-action rules:
+  $$\text{Condition} \longrightarrow \text{Action}$$
+* **Rules & Reflexes:**
+  * $\text{Noise} > 60\text{ dB} \longrightarrow \text{"Generate High Noise Alert"}$
+  * $\text{Door} = \text{Unlocked} \longrightarrow \text{"Trigger Auto-Lock \& Security Warning"}$
+  * $\text{Light} = \text{ON} \land \text{Occupied} = \text{False} \longrightarrow \text{"Turn Off Lights (Energy Saver)"}$
+  * $\text{All Normal} \longrightarrow \text{"Maintain Normal Operations"}$
 
 ---
 
-# 🧩 10. PEAS Representation
-
-PEAS stands for:
-
-* **P — Performance Measure**
-* **E — Environment**
-* **A — Actuators**
-* **S — Sensors**
-
-## Agent 1 — Room Behavior Monitoring
-
-| Component       | Description                          |
-| --------------- | ------------------------------------ |
-| **Performance** | Safety, low noise, energy efficiency |
-| **Environment** | Hostel/Airbnb room                   |
-| **Actuators**   | Warning, lock door, turn off lights  |
-| **Sensors**     | Noise, light, door, occupancy        |
-
-## Agent 2 — Roommate Compatibility
-
-| Component       | Description                                 |
-| --------------- | ------------------------------------------- |
-| **Performance** | Compatibility and user satisfaction         |
-| **Environment** | Available roommate candidates               |
-| **Actuators**   | Recommend roommate                          |
-| **Sensors**     | Lifestyle preferences and roommate profiles |
-
-## Agent 3 — Room Selection
-
-| Component       | Description                                      |
-| --------------- | ------------------------------------------------ |
-| **Performance** | Cost, comfort, convenience                       |
-| **Environment** | Available rooms                                  |
-| **Actuators**   | Recommend best room                              |
-| **Sensors**     | Rent, distance, facilities, noise, compatibility |
+### 5.2 Functionality 2 — Roommate Compatibility (Goal-Based)
+* **Design Philosophy:** Acts to achieve an explicit target state (Goal).
+* **Goal Formulation:** 
+  $$\text{Goal: Find Candidate } c \text{ such that } \text{CompatibilityScore}(u, c) \ge \text{GoalThreshold (e.g., } 70\%)$$
+* **Attributes Evaluated:** Sleep schedule, cleanliness, noise tolerance, smoking habits, study preferences.
+* **Decision Flow:**
+  1. Compute match score for each candidate.
+  2. Test against goal condition ($\text{Score} \ge 70\%$).
+  3. Accept candidate(s) satisfying goal; reject candidates failing goal.
 
 ---
 
-# 📊 11. Example System Scenario
-
-Consider a student looking for hostel accommodation.
-
-### Step 1 — Room Monitoring
-
-The Behavior Monitoring Agent detects:
-
-```text
-Noise = 68 dB
-Door = Unlocked
-Room = Occupied
-```
-
-Output:
-
-```text
-⚠ Noise exceeds permitted level.
-⚠ Door is unlocked.
-```
+### 5.3 Functionality 3 — Room Selection (Utility-Based)
+* **Design Philosophy:** Maximizes overall desirability/utility when multiple competing alternatives exist.
+* **Utility Formulation:** Normalizes all criteria to $[0, 100]$ scale and applies weighted sum:
+  $$U(\text{Room}) = w_1 \cdot \text{Affordability} + w_2 \cdot \text{Distance} + w_3 \cdot \text{Facilities} + w_4 \cdot \text{Noise} + w_5 \cdot \text{Compatibility}$$
+* **Default Weights:**
+  * Affordability: $0.25$
+  * Distance to Campus: $0.15$
+  * Facilities / Amenities: $0.20$
+  * Low Noise Environment: $0.15$
+  * Roommate Compatibility: $0.25$
+  * ($\sum w_i = 1.0$)
+* **Decision:** Select $\text{Room}^* = \arg\max_{\text{Room}} U(\text{Room})$.
 
 ---
 
-### Step 2 — Roommate Matching
+## 🧩 6. PEAS Representation of the Unified Agent
 
-The student specifies:
-
-```text
-Sleep: Early
-Noise: Low
-Cleanliness: High
-Smoking: No
-```
-
-The Goal-Based Agent evaluates available candidates.
-
-```text
-Candidate A → 55%
-Candidate B → 82%
-Candidate C → 64%
-```
-
-Goal:
-
-```text
-Compatibility >= 70%
-```
-
-Output:
-
-```text
-Recommended Roommate: Candidate B
-Compatibility: 82%
-```
+| Component | Description |
+| :--- | :--- |
+| **P — Performance Measure** | Room safety/energy efficiency, user compatibility satisfaction ($\ge 70\%$), and maximum utility of selected accommodation. |
+| **E — Environment** | Shared student hostel / Airbnb apartment, candidate roommate pool, and available listings. |
+| **A — Actuators** | Warning display / push alerts, electronic lock trigger, power/lighting control, roommate recommendation, room selection report. |
+| **S — Sensors / Inputs** | Noise sensor (dB), door status sensor, light & PIR occupancy sensors, user lifestyle survey, candidate database, room listing attributes. |
 
 ---
 
-### Step 3 — Room Selection
+## 👨‍💻 7. Collaborative Implementation Flow
 
-The Utility-Based Agent evaluates available rooms.
-
-```text
-Room 101 → 78 Utility
-Room 102 → 84 Utility
-Room 103 → 72 Utility
-```
-
-Output:
+The project follows a structured sequence where each team member implements one agent functionality into the unified `SmartHostelAgent`:
 
 ```text
-Recommended Room: Room 102
-Utility Score: 84
+┌───────────────────────────┐     ┌───────────────────────────┐     ┌───────────────────────────┐
+│   STEP 1: PERSON 3        │     │   STEP 2: PERSON 2        │     │   STEP 3: PERSON 1        │
+│   (Het - First Changes)   │ ──► │   (Second Changes)        │ ──► │   (Third Changes)         │
+├───────────────────────────┤     ├───────────────────────────┤     ├───────────────────────────┤
+│ • Agent class skeleton    │     │ • Goal-based matching     │     │ • Simple reflex monitor   │
+│ • Utility-based room      │     │ • Goal satisfaction check │     │ • Condition-action rules  │
+│   selection engine        │     │ • Compatibility scoring   │     │ • Master agent pipeline   │
+│ • Weight normalization    │     │                           │     │ • Interactive CLI UI      │
+└───────────────────────────┘     └───────────────────────────┘     └───────────────────────────┘
 ```
+
+> 📖 **Full step-by-step implementation guide:** Refer to [flow.md](file:///d:/Het/College/sem5/AISC/agentexp/flow.md) for code templates, methods, and commit guidelines for each member.
 
 ---
 
-# 🔗 12. Relationship Between Agents
-
-The agents are implemented independently but conceptually work together.
+## 📁 8. Project Structure
 
 ```text
-             USER / HOSTEL ENVIRONMENT
-                       │
-       ┌───────────────┼────────────────┐
-       │               │                │
-       ▼               ▼                ▼
-  Room State      User Preferences   Room Data
-       │               │                │
-       ▼               ▼                ▼
-  ┌─────────┐     ┌─────────┐     ┌─────────┐
-  │ Agent 1 │     │ Agent 2 │     │ Agent 3 │
-  │ Simple  │     │  Goal   │     │ Utility │
-  │ Reflex  │     │  Based  │     │  Based  │
-  └────┬────┘     └────┬────┘     └────┬────┘
-       │               │                │
-       ▼               ▼                ▼
-    Alerts        Roommate Match     Best Room
-```
-
-The project does **not require a centralized controller or database**, since the primary objective is to demonstrate different intelligent-agent architectures.
-
----
-
-# 🛠️ 13. Technology Stack
-
-The agents can be implemented using basic programming tools.
-
-### Recommended
-
-* **Language:** Python 3
-* **Input:** Console / predefined datasets
-* **Libraries:** Python standard library
-* **Output:** Console-based recommendations and alerts
-
-No machine learning model or external API is required.
-
----
-
-# 📁 14. Suggested Repository Structure
-
-```text
-smart-hostel-airbnb-agents/
+agentexp/
 │
-├── README.md
-│
-├── agent_1_behavior_monitor/
-│   └── behavior_monitor.py
-│
-├── agent_2_roommate_matching/
-│   └── roommate_matching.py
-│
-├── agent_3_room_selection/
-│   └── room_selection.py
-│
-└── requirements.txt
+├── README.md                 # System overview and case study documentation
+├── flow.md                   # Chronological implementation flow (Person 3 -> Person 2 -> Person 1)
+└── smart_hostel_agent.py     # Single unified agent containing all 3 functionalities
 ```
-
-Since the project uses basic Python functionality, `requirements.txt` may remain empty if no external packages are used.
 
 ---
 
-# 🚀 15. Expected Output
+## 🚀 9. Running the Unified Agent
 
-The final system demonstrates three different forms of intelligent decision-making:
+To execute the complete unified agent with all three functionalities:
 
+```bash
+python smart_hostel_agent.py
+```
+
+### Sample Output:
 ```text
-Agent 1:
-Room conditions
-      ↓
-Rules
-      ↓
-Immediate Action
+============================================================
+          SMART HOSTEL MANAGEMENT SYSTEM
+============================================================
 
-Agent 2:
-User preferences
-      ↓
-Candidate evaluation
-      ↓
-Goal satisfaction
-      ↓
-Compatible roommate
+--- 1. Live Room Monitoring ---
+Status: Noise 74dB | Door: Unlocked | Light: ON | Occupied: No | Temp: 30.5C
+Actions Taken:
+  * Noise level high (74 dB) -> Triggered warning alert
+  * Door unlocked -> Auto-locked door & sent security notification
+  * Room unoccupied with lights on -> Automatically turned off lights
+  * Room temperature high (30.5C) -> Activated AC cooling
 
-Agent 3:
-Room alternatives
-      ↓
-Utility calculation
-      ↓
-Comparison
-      ↓
-Best room
+--- 2. Roommate Compatibility (Goal: >= 70%) ---
+  * Rahul    : 100.0% compatibility [MATCH]
+  * Amit     :  13.8% compatibility [NO MATCH]
+  * Jay      :  94.0% compatibility [MATCH]
+Selected Roommate: Rahul (100.0%)
+
+--- 3. Room Selection (Utility Scoring) ---
+  * Room 103 -> Utility:  83.5/100 (Rent: Rs.9000, Dist: 1.0km, Facilities: 10.0/10, Noise: Low)
+  * Room 101 -> Utility:  79.7/100 (Rent: Rs.8000, Dist: 2.0km, Facilities: 8.0/10, Noise: Low)
+  * Room 102 -> Utility:  63.7/100 (Rent: Rs.6500, Dist: 5.0km, Facilities: 7.0/10, Noise: High)
+Recommended Room: Room 103 (Best Utility Score: 83.5/100)
+
+============================================================
 ```
 
 ---
 
-# 📚 16. Key AI Concepts Demonstrated
+## 📚 10. Key AI Concepts Summary
 
-* Intelligent Agents
-* Agent Environment
-* Sensors and Actuators
-* Percepts and Actions
-* Simple Reflex Agents
-* Goal-Based Agents
-* Utility-Based Agents
-* Rule-Based Decision Making
-* Goal Satisfaction
-* Utility Functions
-* Decision Making under Multiple Criteria
-* PEAS Framework
-
----
-
-# ✅ 17. Conclusion
-
-The **Smart Hostel / Airbnb Roommate Management System** demonstrates how different intelligent-agent architectures can be applied to everyday accommodation problems.
-
-The three agents solve different types of problems:
-
-> **Simple Reflex Agent → "What should I do right now?"**
-
-> **Goal-Based Agent → "What do I need to achieve?"**
-
-> **Utility-Based Agent → "Which option gives me the best overall result?"**
-
-By implementing these three agents independently, the case study provides a simple but practical demonstration of how AI agents perceive their environment, make decisions, and take actions.
-
----
-
-## 👥 Team Contribution
-
-| Member   | Contribution             | Agent Architecture |
-| -------- | ------------------------ | ------------------ |
-| Member 1 | Room Behavior Monitoring | Simple Reflex      |
-| Member 2 | Roommate Compatibility   | Goal-Based         |
-| Member 3 | Room Selection           | Utility-Based      |
-
----
-
-## ⭐ Summary
-
-**Smart Hostel / Airbnb Roommate Management System**
-
-```text
-┌─────────────────────────────────────────────────┐
-│          SMART HOSTEL / AIRBNB SYSTEM           │
-├─────────────────┬────────────────┬──────────────┤
-│ Behavior        │ Roommate       │ Room         │
-│ Monitoring      │ Matching       │ Selection    │
-├─────────────────┼────────────────┼──────────────┤
-│ Simple Reflex   │ Goal-Based     │ Utility-Based│
-├─────────────────┼────────────────┼──────────────┤
-│ Rules           │ Goals          │ Utility      │
-│ ↓               │ ↓              │ ↓            │
-│ Immediate       │ Goal           │ Best Overall │
-│ Action          │ Satisfaction   │ Choice       │
-└─────────────────┴────────────────┴──────────────┘
-```
+* **Simple Reflex:** Direct $S \rightarrow A$ mapping; fast, stateless, ideal for real-time safety.
+* **Goal-Based:** Evaluates future states against explicit criteria; flexible, goal-driven search.
+* **Utility-Based:** Evaluates trade-offs using continuous objective functions $U(s)$; optimal under competing preferences.
+* **Hybrid Unified Agent:** Demonstrates how multiple agent architectures coexist to solve multi-faceted real-world problems.
